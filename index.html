@@ -33,18 +33,19 @@
 
 <!-- 1 HERO -->
 <header class="hero" id="home">
-<img class="hero-bg" src="assets/images/hero-showroom.webp" alt="Grand NOOLAM Kanchipuram silk saree showroom with shelves of folded silks and mannequins"/>
+<img class="hero-bg" src="assets/images/hero-showroom.webp" alt="Inside the NOOLAM store in Kanchipuram — shelves of folded silk sarees and a customer choosing a gold pattu with the shopkeeper"/>
 <div class="hero-shade"></div>
 <div class="navwrap"><nav class="navbar">
 <div class="logo"><i>❁</i> NOOLAM</div>
 <div class="navlinks"><a class="active" href="#home">Home</a><a href="#try">Try the Look</a><a href="#pick">Pick a Silk</a><a href="#rack">The Rack</a><a href="#muse">The Muse</a><a href="#bridal">Bridal</a><a href="#weave">The Weave</a></div>
-<div class="navright"><button class="iconbtn" aria-label="Wishlist">♡</button><button class="iconbtn" aria-label="Bag">👜<span class="bagcount" id="bagCount">0</span></button><button class="visit">Visit the Store →</button></div>
+<div class="navright"><button class="iconbtn" aria-label="Wishlist" onclick="showWish()">♡<span class="bagcount" id="wishCount" style="display:none">0</span></button><button class="iconbtn" aria-label="Bag" onclick="openBag()">👜<span class="bagcount" id="bagCount">0</span></button><a class="visit" href="#visit">Visit the Store →</a></div>
 </nav></div>
 <div class="hero-content">
 <span class="pill-label"><b>●</b>&nbsp; KANCHIPURAM · PURE ZARI · HANDWOVEN SILK</span>
 <h1>Woven for<br>the Divine.</h1>
 <p>NOOLAM brings the temple looms of Kanchipuram home: Kanjivaram silk in heritage colours, bordered in real zari and finished by hand.</p>
 <div class="btnrow"><a href="#try" class="btn maroon">Try the Look <span class="arr">↗</span></a><a href="#rack" class="btn white">Browse the Rack <span class="arr">↗</span></a></div>
+<div class="trustrow"><span>★ 4.9 from 2,300+ customers</span><span>·</span><span>Woven by 40+ families in Kanchipuram</span><span>·</span><span>Ships across India in 2–4 days</span></div>
 </div>
 <div class="ticker"><div class="ticker-track" id="ticker1"></div></div>
 </header>
@@ -67,7 +68,7 @@
 <div class="look-meta"><div style="display:flex;gap:8px"><button class="arrowbtn" onclick="scrollLook(-1)">←</button><button class="arrowbtn" onclick="scrollLook(1)">→</button></div><div><strong id="lookCounter">7 of 8 · Ivory Elephant</strong><div style="font-size:12px;color:#888">Scroll or drag</div></div></div>
 </div>
 <aside class="panel"><h3>In this look</h3><p style="margin:0;color:#888;font-size:13px">Complete set · Ivory Elephant</p><div id="lookItems"></div>
-<div class="bundle"><div style="font-size:13px;line-height:1.5"><strong>Complete the look</strong> — Bundle all 6 pieces · save 10%<br><s style="color:#999">₹69,000</s> <strong style="font-size:18px;color:var(--maroon2)">₹62,100</strong></div><div style="display:flex;gap:8px"><button class="btn maroon" style="flex:1;justify-content:center" onclick="addBag(6,'Full look added to bag')">Add full look to bag <span class="arr">→</span></button><button class="mini" style="width:46px;height:46px" onclick="toast('Saved to wishlist ♡')">♡</button></div></div>
+<div class="bundle"><div style="font-size:13px;line-height:1.5"><strong>Complete the look</strong> — Bundle all 6 pieces · save 10%<br><s style="color:#999">₹69,000</s> <strong style="font-size:18px;color:var(--maroon2)">₹62,100</strong></div><div style="display:flex;gap:8px"><button class="btn maroon" style="flex:1;justify-content:center" onclick="addToBag('Ivory Elephant — Full Look (6 pieces)','₹62,100')">Add full look to bag <span class="arr">→</span></button><button class="mini" style="width:46px;height:46px" onclick="toggleWish('Ivory Elephant — Full Look',this)">♡</button></div></div>
 </aside>
 </div>
 </section>
@@ -82,9 +83,10 @@
 <section class="section reveal" id="rack">
 <div class="eyebrow">— THE COLLECTION</div><h2 style="margin-top:10px">Every silk, <span class="grad">on the rail.</span></h2>
 <div class="chips" id="chips"></div>
+<div class="rack-tools"><input id="rackSearch" type="search" placeholder="Search the rail — try 'korvai' or 'blouse'…" oninput="rackState.q=this.value;applyRack()"><select id="rackSort" onchange="rackState.sort=this.value;applyRack()" aria-label="Sort the rack"><option value="feat">Sort · Featured</option><option value="lo">Price · Low to High</option><option value="hi">Price · High to Low</option><option value="az">Name · A to Z</option></select><span class="rack-count" id="rackCount"></span></div>
 <div class="rail-wrap"><div class="rod"></div><div class="rack" id="rackRail"></div></div>
 <div class="rack-cap" id="rackCap">NOOLAM TEMPLE GOLD BROCADE · ₹32,000.00</div>
-<div class="rack-foot"><span>EXPLORE THE COLLECTION · 9 PIECES</span><span>AI-GENERATED STUDIO IMAGERY · DEMO COLLECTION</span></div>
+<div class="rack-foot"><span>EXPLORE THE COLLECTION</span><span>PURE SILK · HANDWOVEN · ONE SAREE AT A TIME</span></div>
 
 <div class="detail" id="detail">
 <div><div class="fabric bigfab" id="detailFab"></div></div>
@@ -93,7 +95,7 @@
 <div style="display:flex;gap:10px;align-items:center;margin-top:16px"><button class="arrowbtn" onclick="stepDetail(-1)">←</button><button class="arrowbtn" onclick="stepDetail(1)">→</button><span style="font-size:12px;color:#888">Move between pieces</span></div>
 <div style="margin-top:18px"><div class="toggle"><button class="on" onclick="toggleView(this,'FRONT')">FRONT</button><button onclick="toggleView(this,'BACK')">BACK</button></div><span id="viewLabel" style="margin-left:10px;font-size:12px;color:#888">Front view</span></div>
 <div style="margin-top:16px;font-size:11px;letter-spacing:.16em;font-weight:700">SIZE</div><div class="sizechips" id="sizes"><button>34</button><button>36</button><button>38</button><button>40</button><button>42</button></div>
-<div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap"><button id="sizeBtn" class="btn maroon" onclick="detailAction()">SELECT A SIZE <span class="arr">→</span></button><button class="mini" style="width:46px;height:46px" onclick="toast('Saved ♡')">♡</button><a href="#" onclick="event.preventDefault();toast('In store & online — 2 pieces left in Kanchipuram')" style="text-decoration:underline;font-size:12px;letter-spacing:.12em;font-weight:700">SEE AVAILABILITY</a></div>
+<div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap"><button id="sizeBtn" class="btn maroon" onclick="detailAction()">SELECT A SIZE <span class="arr">→</span></button><button class="mini" style="width:46px;height:46px" onclick="toggleWish(rackData[detailIdx].name,this)">♡</button><a href="#" onclick="event.preventDefault();toast('In store & online — 2 pieces left in Kanchipuram')" style="text-decoration:underline;font-size:12px;letter-spacing:.12em;font-weight:700">SEE AVAILABILITY</a></div>
 <p style="color:#777;line-height:1.6;font-size:13px;margin-top:16px">Handwoven in Kanchipuram, one saree at a time. Pure zari, temple border, finished by hand.</p>
 </div>
 </div>
@@ -108,7 +110,7 @@
 <div class="film-frame"><img class="main" src="assets/images/mood-zari-signatures.webp" alt="Woman in red Kanjivaram saree, drape in motion"/><button class="sound" id="soundBtn" onclick="toggleSound()">···· SOUND OFF</button></div>
 <div class="vcol"><div class="vtrack down" id="vright"></div></div>
 </div>
-<div style="text-align:center;margin-top:26px"><button class="btn maroon" onclick="addBag(1,'Collection added')">Purchase the Collection <span class="arr">↗</span></button></div>
+<div style="text-align:center;margin-top:26px"><button class="btn maroon" onclick="addToBag('The Muse Collection','₹36,500')">Purchase the Collection <span class="arr">↗</span></button></div>
 </section>
 
 <!-- 8 MUSE REELS -->
@@ -122,14 +124,91 @@
 <div style="max-width:1240px;margin:0 auto;text-align:center"><div class="eyebrow">— FOR THE MUHURTHAM AND EVERY VOW AFTER</div><h2 style="margin-top:12px">The Bridal <span class="grad2">Collection</span></h2>
 <div class="bridal-stage" id="bridalStage"></div>
 <div class="bridal-info"><h3 id="bridalName">Manjal Kalyanam Pattu</h3><p id="bridalNote">Pattu · Red-gold pallu</p><div class="p" id="bridalPrice">₹27,300</div></div>
-<div class="controls"><button class="arrowbtn" onclick="moveBridal(-1)">←</button><button class="btn maroon" onclick="addBag(1,'Bridal saree added to bag')">Add to cart <span class="arr">→</span></button><button class="arrowbtn" onclick="toast('Bridal look saved ♡')">♡</button><button class="arrowbtn" onclick="moveBridal(1)">→</button></div>
+<div class="controls"><button class="arrowbtn" onclick="moveBridal(-1)">←</button><button class="btn maroon" onclick="addToBag(bridalData[bCenter].name,bridalData[bCenter].price)">Add to cart <span class="arr">→</span></button><button class="arrowbtn" onclick="toggleWish(bridalData[bCenter].name,this)">♡</button><button class="arrowbtn" onclick="moveBridal(1)">→</button></div>
 </div>
 </section>
 
-<!-- 10 FOOTER -->
-<footer id="weave"><div class="ticker"><div class="ticker-track ticker2"></div></div>
+
+<!-- 10 THE WEAVE -->
+<section class="section reveal" id="weave">
+<div class="eyebrow">— THE WEAVE</div>
+<h2 style="margin-top:10px">Three days at the loom,<br><span class="grad">one saree.</span></h2>
+<div class="weave-grid">
+<img src="assets/images/loom-weaver.webp" alt="Handloom weaver working a wooden pit loom in Kanchipuram"/>
+<div>
+<p style="color:#6b5a4a;line-height:1.7;margin-top:0">Every NOOLAM saree starts as mulberry silk thread and a pit loom in a weaver's home — not a factory floor. The korvai border is joined by hand, the zari is tested silver at its core, and a single bridal pattu can hold a family of weavers for the better part of a week.</p>
+<p style="color:#6b5a4a;line-height:1.7">We buy from the same forty-odd weaving families we started with, pay on the day a saree leaves the loom, and put the weaver's village on the tag of every piece. If a border is imperfect, it stays — that is how you know a hand made it.</p>
+<div class="stats">
+<div><b>40+</b><span>weaver families</span></div>
+<div><b>3–6</b><span>days per saree</span></div>
+<div><b>100%</b><span>pure mulberry silk</span></div>
+<div><b>1998</b><span>on the same street</span></div>
+</div>
+</div>
+</div>
+</section>
+
+<!-- 11 WORD OF MOUTH -->
+<section class="section reveal" id="stories">
+<div class="eyebrow">— WORD OF MOUTH</div>
+<h2 style="margin-top:10px">Worn, gifted, <span class="grad">handed down.</span></h2>
+<div class="testi-grid">
+<figure class="testi"><div class="stars">★★★★★</div><blockquote>"Bought my daughter's muhurtham pattu here the same week my mother bought hers, thirty years apart. The zari has not dulled one bit — mine still comes out for every Pongal."</blockquote><figcaption><b>Lakshmi Raghavan</b><span>Kanchipuram · buying since 2009</span></figcaption></figure>
+<figure class="testi"><div class="stars">★★★★★</div><blockquote>"I ordered from Chennai after a video call with the store — they opened saree after saree on camera until I found the right korvai. It arrived in three days, blouse stitched."</blockquote><figcaption><b>Divya Shankar</b><span>Chennai · online order</span></figcaption></figure>
+<figure class="testi"><div class="stars">★★★★★</div><blockquote>"The checks are perfectly imperfect, if that makes sense. You can feel the loom in it. Three weddings this season and someone asked about the saree at every single one."</blockquote><figcaption><b>Meera Krishnan</b><span>Bengaluru · Korvai Checks</span></figcaption></figure>
+</div>
+</section>
+
+<!-- 12 GOOD QUESTIONS -->
+<section class="section reveal" id="faq">
+<div class="eyebrow">— GOOD QUESTIONS</div>
+<h2 style="margin-top:10px">Before you <span class="grad">ask us.</span></h2>
+<div class="faq-list">
+<div class="faq-item"><button class="faq-q" onclick="toggleFaq(this)">Is the zari real?<span>+</span></button><div class="faq-a"><p>Yes. Our borders use tested zari — a silver core wrapped in gold — which is why a NOOLAM border carries weight and does not blacken the way imitation zari does. Every bridal piece ships with its zari and silk purity noted on the tag.</p></div></div>
+<div class="faq-item"><button class="faq-q" onclick="toggleFaq(this)">How long does delivery take?<span>+</span></button><div class="faq-a"><p>Two to four working days across India, packed in a cotton bag inside a rigid box. Blouse stitching, when you add it, takes two extra days. Kanchipuram and Chennai orders placed before noon usually arrive the next day.</p></div></div>
+<div class="faq-item"><button class="faq-q" onclick="toggleFaq(this)">Can I see a saree before I buy it online?<span>+</span></button><div class="faq-a"><p>Yes — message us and we will open the exact piece on a video call, drape it, and show the border and fall in daylight. Most of our online orders start exactly that way.</p></div></div>
+<div class="faq-item"><button class="faq-q" onclick="toggleFaq(this)">What if the colour looks different at home?<span>+</span></button><div class="faq-a"><p>Shot silk genuinely changes with light — that is its nature, not a defect. If the saree is simply not right, return it unworn within seven days and we will exchange it or refund you in full.</p></div></div>
+<div class="faq-item"><button class="faq-q" onclick="toggleFaq(this)">How do I care for the silk?<span>+</span></button><div class="faq-a"><p>Dry clean only, store wrapped in the cotton bag we send — never plastic — and refold along different lines every few months so the zari does not crease-set. Keep it away from perfume sprays and direct sun.</p></div></div>
+</div>
+</section>
+
+<!-- 13 VISIT THE STORE -->
+<section class="section reveal" id="visit">
+<div class="eyebrow">— VISIT THE STORE</div>
+<h2 style="margin-top:10px">Come and feel <span class="grad">the fall of it.</span></h2>
+<div class="visit-grid">
+<img src="assets/images/store-front.webp" alt="The NOOLAM store front on a Kanchipuram market street"/>
+<div class="visit-card">
+<h3>NOOLAM · Kanchipuram</h3>
+<p>14, Gandhi Road, Kanchipuram,<br>Tamil Nadu 631502</p>
+<p><b>Open every day</b><br>Mon–Sat · 9:30 am – 9:00 pm<br>Sunday · 10:00 am – 2:00 pm</p>
+<p><b>Talk to the store</b><br>+91 98410 00000<br>care@noolam.example</p>
+<p style="color:#6b5a4a;line-height:1.6">Bridal appointments run about an hour — we keep the full bridal rail aside for you and the coffee is on us. Walk-ins are always welcome for everything else.</p>
+<a class="btn maroon" href="#rack">Browse before you visit <span class="arr">→</span></a>
+</div>
+</div>
+</section>
+
+<!-- 14 LOOM LETTERS -->
+<section class="section reveal news">
+<div><div class="eyebrow">— LOOM LETTERS</div><h2 style="margin-top:10px">One letter a month.<br><span class="grad">New looms, old stories.</span></h2></div>
+<form class="news-form" onsubmit="subscribe(event)"><input id="newsEmail" type="email" placeholder="your@email.com" aria-label="Email address"><button class="btn maroon" type="submit">Subscribe <span class="arr">→</span></button><p>No spam, no offers blast — just what came off the looms and the stories behind them. Unsubscribe anytime.</p></form>
+</section>
+
+<!-- 15 FOOTER -->
+<footer><div class="ticker"><div class="ticker-track ticker2"></div></div>
 <div class="footer-inner"><div style="font-size:28px;color:var(--gold)">❁</div><div class="footer-logo">NOOLAM</div><p>Handwoven in Kanchipuram, one saree at a time. Pure zari, temple borders, and silk that is made to be inherited — woven for the divine, worn for a lifetime.</p><div class="flinks"><a href="#try">Try the Look</a><a href="#pick">Pick a Silk</a><a href="#rack">The Rack</a><a href="#muse">The Muse</a><a href="#bridal">Bridal</a><span>Kanchipuram · Chennai</span></div><div style="margin-top:28px;font-size:11px;color:#b89a6a;letter-spacing:.14em">© NOOLAM · KANCHIPURAM SILK · DEMO RECREATION INSPIRED BY THE ORIGINAL SHOWCASE</div></div>
 </footer>
+
+
+<!-- Bag drawer: line items, quantities and total (see main.js) -->
+<div class="overlay" id="overlay" onclick="closeBag()"></div>
+<aside class="bagdrawer" id="bagDrawer" aria-label="Shopping bag">
+<div class="bag-head"><h3>Your bag</h3><button class="arrowbtn" onclick="closeBag()">×</button></div>
+<div id="bagItems"></div>
+<div class="bag-foot"><div class="bag-total"><span>Total</span><b id="bagTotal">₹0</b></div><button class="btn maroon" style="width:100%;justify-content:center" onclick="toast('Demo checkout — the store will confirm your order on call')">Place order <span class="arr">→</span></button><p>Free shipping across India · blouse stitching available at checkout</p></div>
+</aside>
+<button class="toTop" id="toTop" onclick="window.scrollTo({top:0,behavior:'smooth'})" aria-label="Back to top">↑</button>
 
 <div class="toast" id="toast">Added to bag</div>
 <div class="fs" id="fs"><button class="btn white" onclick="document.getElementById('fs').classList.remove('open')">Close ×</button><img id="fsImg" src="assets/images/mood-bridal-elan.webp" alt="Reel full screen"/><div style="color:#fff;text-align:center;margin-top:12px;font-weight:700" id="fsCap">Pachai Pattu — with sound</div></div>
